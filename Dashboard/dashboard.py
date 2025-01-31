@@ -3,30 +3,25 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Load dataset
 customer_df = pd.read_csv("Dashboard/cleaned_customer_data.csv")
 product_df = pd.read_csv("Dashboard/cleaned_merge_product_data.csv")
 seller_df = pd.read_csv("Dashboard/cleaned_seller_city_data.csv")
 
-# Sidebar menu
 st.sidebar.title("E-Commerce Public Dataset")
 menu = st.sidebar.radio("Pilih Analisis:", ["Produk Terjual", "Demografi Pelanggan", "Penjual per Daerah"])
 
 if menu == "Produk Terjual":
     st.title("\U0001F4C8 Produk Paling Banyak dan Sedikit Terjual")
 
-    # Slider untuk jumlah produk yang ditampilkan
     top_n = st.sidebar.slider("Pilih jumlah produk yang ingin ditampilkan:", min_value=5, max_value=20, value=10)
 
-    # Menghitung jumlah produk terjual per kategori
     product_sales = product_df.groupby("product_category_name")["product_id"].count().reset_index()
     product_sales = product_sales.rename(columns={"product_id": "total_sold"})
     product_sales = product_sales.sort_values(by="total_sold", ascending=False)
 
-    most_sold = product_sales.head(top_n)  # Produk terlaris
-    least_sold = product_sales.tail(top_n)  # Produk tidak laku
+    most_sold = product_sales.head(top_n)
+    least_sold = product_sales.tail(top_n)
 
-    # Grafik produk terlaris
     fig1, ax1 = plt.subplots(figsize=(8, 8))
     sns.barplot(data=most_sold, x="total_sold", y="product_category_name", palette="Greens", ax=ax1)
     ax1.set_title(f"{top_n} Produk Terlaris")
@@ -34,7 +29,6 @@ if menu == "Produk Terjual":
     ax1.set_ylabel("Kategori Produk")
     st.pyplot(fig1)
 
-    # Grafik produk paling tidak laku
     fig2, ax2 = plt.subplots(figsize=(8, 6))
     sns.barplot(data=least_sold, x="total_sold", y="product_category_name", palette="Reds", ax=ax2)
     ax2.set_title(f"{top_n} Produk Paling Tidak Laku")
@@ -45,7 +39,6 @@ if menu == "Produk Terjual":
 elif menu == "Demografi Pelanggan":
     st.title("\U0001F465 Demografi Pelanggan")
 
-    # Slider untuk jumlah kota yang ditampilkan
     top_n = st.sidebar.slider("Pilih jumlah kota yang ingin ditampilkan:", min_value=5, max_value=20, value=10)
 
     fig, ax = plt.subplots(figsize=(12, 8))
@@ -64,7 +57,6 @@ elif menu == "Demografi Pelanggan":
 elif menu == "Penjual per Daerah":
     st.title("\U0001F4CD Daerah dengan Penjual Terbanyak")
 
-    # Slider untuk jumlah kota yang ditampilkan
     top_n = st.sidebar.slider("Pilih jumlah kota yang ingin ditampilkan:", min_value=5, max_value=20, value=10)
 
     fig, ax = plt.subplots(figsize=(12, 8))
