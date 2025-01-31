@@ -3,17 +3,17 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Load dataset yang sudah dibersihkan dan dieksplorasi
-customer_df = pd.read_csv("cleaned_customer_data.csv")
-product_df = pd.read_csv("cleaned_merge_product_data.csv")
-seller_df = pd.read_csv("cleaned_seller_city_data.csv")
+import pandas as pd
+
+customer_df = pd.read_csv("Dashboard/cleaned_customer_data.csv")
+product_df = pd.read_csv("Dashboard/cleaned_merge_product_data.csv")
+seller_df = pd.read_csv("Dashboard/cleaned_seller_city_data.csv")
 
 
-# Sidebar
+
 st.sidebar.title("E-Commerce Public Dataset")
 menu = st.sidebar.radio("Pilih Analisis:", ["Produk Terjual", "Demografi Pelanggan", "Penjual per Daerah"])
 
-# 1. Produk Paling Banyak dan Sedikit Terjual
 if menu == "Produk Terjual":
     st.title("\U0001F4C8 Produk Paling Banyak dan Sedikit Terjual")
     product_sales = product_df.groupby(by="product_category_name")["product_id"].count().reset_index()
@@ -39,7 +39,6 @@ if menu == "Produk Terjual":
     st.pyplot(fig2)
 
 
-# 2. Demografi Pelanggan
 elif menu == "Demografi Pelanggan":
     st.title("\U0001F465 Demografi Pelanggan")
 
@@ -58,7 +57,6 @@ elif menu == "Demografi Pelanggan":
 
     st.pyplot(plt)
 
-# 3. Penjual Terbanyak berdasarkan Daerah
 elif menu == "Penjual per Daerah":
     st.title("\U0001F4CD Daerah dengan Penjual Terbanyak")
 
@@ -79,5 +77,4 @@ elif menu == "Penjual per Daerah":
 
     st.pyplot(plt)
 
-# Informasi tambahan
 st.sidebar.markdown("---")
